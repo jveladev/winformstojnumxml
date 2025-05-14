@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <entidad xmlns="http://jnum.com/entidad"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jnum.com/entidad
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://jnum.com/entidad
 	../../esquemas/entidad.xsd">
   <modulo>territorio</modulo>
-  <nombre>paix</nombre>
+  <nombre>pais</nombre>
   <nombreTabla>PAIS</nombreTabla>
   <label>País</label>
   <menuLabel>Países</menuLabel>
@@ -13,12 +14,6 @@
     <atributo>nombre</atributo>
   </orden>
   <opciones>
-    <opcion>
-      <nombre>mostrarNoActivos</nombre>
-      <label>Mostrar no activos</label>
-      <tipo>boolean</tipo>
-      <valor>false</valor>
-    </opcion>
   </opciones>
   <favorito>
   </favorito>
@@ -29,28 +24,11 @@
   <atributos>
     <atributo>
       <nombre>idEntidad</nombre>
-      <nombreColumna>ID_ENTIDAD</nombreColumna>
+      <transient>true</transient>
       <obligatorio>true</obligatorio>
-      <label>Entidad</label>
-      <clase>entidad</clase>
-      <esRelacion>true</esRelacion>
-      <edicion>
-        <tipo>combo</tipo>
-        <validaciones>
-          <validacion>
-            <nombre>required</nombre>
-          </validacion>
-        </validaciones>
-      </edicion>
-      <secciones>
-        <insercion>true</insercion>
-        <busqueda>
-          <operador>eq</operador>
-        </busqueda>
-        <listado>true</listado>
-        <modificacion>false</modificacion>
-      </secciones>
+      <clase>java.lang.Integer</clase>
     </atributo>
+
     <atributo>
       <nombre>idPais</nombre>
       <transient>true</transient>
@@ -62,24 +40,28 @@
         </busqueda>
       </secciones>
     </atributo>
+    
     <atributo>
       <nombre>codigo</nombre>
       <nombreColumna>codigo</nombreColumna>
-      <longitud>3</longitud>
+      <longitud>4</longitud>
       <obligatorio>true</obligatorio>
       <label>Código</label>
       <clase>java.lang.String</clase>
       <unico>true</unico>
+      <events>
+        <change>codigoChange()</change>
+      </events>
       <edicion>
         <tipo>text</tipo>
-        <longitud>3</longitud>
+        <longitud>4</longitud>
         <validaciones>
           <validacion>
-            <nombre>required</nombre>
+            <nombre>maxlength</nombre>
+            <valor>4</valor>
           </validacion>
           <validacion>
-            <nombre>maxlength</nombre>
-            <valor>3</valor>
+            <nombre>required</nombre>
           </validacion>
         </validaciones>
       </edicion>
@@ -92,6 +74,7 @@
         <modificacion>true</modificacion>
       </secciones>
     </atributo>
+    
     <atributo>
       <nombre>digito</nombre>
       <nombreColumna>digito</nombreColumna>
@@ -99,13 +82,10 @@
       <label>Dígito</label>
       <clase>java.lang.Integer</clase>
       <edicion>
-        <tipo>number</tipo>
+        <tipo>text</tipo>
         <validaciones>
           <validacion>
             <nombre>number</nombre>
-          </validacion>
-          <validacion>
-            <nombre>positive</nombre>
           </validacion>
         </validaciones>
       </edicion>
@@ -118,23 +98,24 @@
         <modificacion>true</modificacion>
       </secciones>
     </atributo>
+    
     <atributo>
       <nombre>nombre</nombre>
       <nombreColumna>nombre</nombreColumna>
-      <longitud>70</longitud>
+      <longitud>100</longitud>
       <obligatorio>true</obligatorio>
       <label>Nombre</label>
       <clase>java.lang.String</clase>
       <edicion>
         <tipo>text</tipo>
-        <longitud>70</longitud>
+        <longitud>100</longitud>
         <validaciones>
           <validacion>
             <nombre>required</nombre>
           </validacion>
           <validacion>
             <nombre>maxlength</nombre>
-            <valor>70</valor>
+            <valor>100</valor>
           </validacion>
         </validaciones>
       </edicion>
@@ -147,19 +128,15 @@
         <modificacion>true</modificacion>
       </secciones>
     </atributo>
+    
     <atributo>
       <nombre>comunitario</nombre>
       <nombreColumna>comunitario</nombreColumna>
-      <obligatorio>true</obligatorio>
+      <obligatorio>false</obligatorio>
       <label>Comunitario</label>
       <clase>java.lang.Boolean</clase>
       <edicion>
         <tipo>checkbox</tipo>
-        <validaciones>
-          <validacion>
-            <nombre>required</nombre>
-          </validacion>
-        </validaciones>
       </edicion>
       <secciones>
         <busqueda>
@@ -170,19 +147,15 @@
         <modificacion>true</modificacion>
       </secciones>
     </atributo>
+    
     <atributo>
       <nombre>activo</nombre>
       <nombreColumna>activo</nombreColumna>
-      <obligatorio>true</obligatorio>
+      <obligatorio>false</obligatorio>
       <label>Activo</label>
       <clase>java.lang.Boolean</clase>
       <edicion>
         <tipo>checkbox</tipo>
-        <validaciones>
-          <validacion>
-            <nombre>required</nombre>
-          </validacion>
-        </validaciones>
       </edicion>
       <secciones>
         <busqueda>
@@ -193,6 +166,7 @@
         <modificacion>true</modificacion>
       </secciones>
     </atributo>
+    
     <atributo>
       <nombre>asimiladoAComunitario</nombre>
       <nombreColumna>asimiladoAComunitario</nombreColumna>
@@ -211,45 +185,35 @@
         <modificacion>true</modificacion>
       </secciones>
     </atributo>
-    <atributo>
-      <nombre>mostrarNoActivos</nombre>
-      <transient>true</transient>
-      <obligatorio>false</obligatorio>
-      <clase>java.lang.Boolean</clase>
-      <secciones>
-        <busqueda>
-          <operador>eq</operador>
-        </busqueda>
-      </secciones>
-    </atributo>
   </atributos>
+  
   <visual>
     <busqueda>
       <vista>
-        <definicion>void.nombreeq(width=7); void.codigoeq(width=3); void.comunitarioeq(width=3); void.mostrarNoActivoseq(width=4)</definicion>
+        <definicion>void.nombreeq(width=7)</definicion>
       </vista>
     </busqueda>
     <adicion>
       <agregable>true</agregable>
       <vista>
-        <definicion>this.codigo(width=3); this.nombre(width=7); this.digito(width=2); this.comunitario(width=3); this.asimiladoAComunitario(width=4); this.activo(width=2)</definicion>
-      </vista>
+        <definicion>this.codigo(width=4); this.digito(width=2); this.nombre(width=7); this.comunitario(width=3); this.activo(width=2); this.asimiladoAComunitario(width=3)</definicion>
+     </vista>
     </adicion>
     <edicion>
       <editable>true</editable>
       <vista>
-        <definicion>this.codigo(width=3); this.nombre(width=7); this.digito(width=2); this.comunitario(width=3); this.asimiladoAComunitario(width=4); this.activo(width=2)</definicion>
+        <definicion>this.codigo(width=4); this.digito(width=2); this.nombre(width=7); this.comunitario(width=3); this.activo(width=2); this.asimiladoAComunitario(width=3)</definicion>
       </vista>
     </edicion>
     <listado>
       <deletable>true</deletable>
       <vista>
-        <definicion>codigo, nombre, digito, comunitario, asimiladoAComunitario, activo</definicion>
+        <definicion>codigo, digito, nombre, comunitario, activo, asimiladoAComunitario</definicion>
       </vista>
     </listado>
     <propselect>
       <vista>
-        <definicion>void.codigoeq, void.nombreeq, void.comunitarioeq, void.activoeq</definicion>
+        <definicion>void.codigoeq, void.digitoeq, void.nombreeq, void.comunitarioeq, void.activoeq, void.asimiladoAComunitarioeq</definicion>
       </vista>
     </propselect>
   </visual>

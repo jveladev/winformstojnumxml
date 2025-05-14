@@ -1,0 +1,57 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+---
+description: >
+  Regla de cursor para transformar datos fuente Win4 en archivos fuente XML,
+  adhiriéndose a la API de la entidad y al esquema XSD.
+  Los archivos 'target_*' en el proyecto sirven como ejemplos del formato XML de salida esperado.
+globs:
+  - "source_*.frm*.*" # Coincide con archivos fuente Win4 para cualquier entidad.
+alwaysApply: true
+agentRequested: false
+---
+
+<instructions>
+1.  **Input:** La regla procesa archivos fuente Win4 (e.g., `source_ENTIDAD_frmEntidad.*`).
+2.  **Output:** Para cada archivo fuente procesado, genera un archivo XML correspondiente (e.g., `target_ENTIDAD.xml`) en un directorio "resultado". El nombre del archivo XML de salida se basa en el nombre de la entidad extraída del nombre del archivo fuente.
+    *Nota: Los archivos 'target_*' existentes en el proyecto son ejemplos del formato de salida deseado.*
+3.  **Data Transformation:** La regla extrae datos del origen Win4 y los transforma en la estructura XML definida a continuación, adhiriéndose a los atributos y reglas de validación de la entidad según se especifica en la API de Swagger y el esquema XSD. El esquema XSD (`entidad.xsd`) define la estructura XML esperada, los tipos de datos y las restricciones de los atributos.
+4.  **Validación XSD:** La regla DEBE validar el XML generado contra el esquema XSD (`entidad.xsd`). Si el XML no es válido según el esquema, la regla DEBE registrar un error y omitir el registro inválido. Esto asegura que el XML de salida cumpla con el formato esperado.
+5.  **Error Handling:** La regla debe manejar posibles desajustes de tipos de datos o campos faltantes con elegancia, registrando errores y omitiendo registros no válidos si es necesario, para evitar que todo el proceso falle.
+6.  **Output Directory:** Los archivos XML generados se colocan en un nuevo directorio llamado "resultado". La regla debe crear este directorio si aún no existe.
+</instructions>
+
+<entity name="Entidad">
+    <description>
+        Entidad genérica que representa cualquier entidad, conforme al esquema de la API de Swagger y al esquema XSD. Los atributos de esta entidad y sus tipos se definen en el esquema XSD.
+    </description>
+    <attributes>
+        <attribute name="atributoDinamico1" type="string">
+            <description>Descripción del atributo dinámico 1.</description>
+            <validation>Las reglas de validación se determinarán del esquema XSD y la API de Swagger.</validation>
+            <win4_field>CAMPO1</win4_field>
+        </attribute>
+        <attribute name="atributoDinamico2" type="integer">
+            <description>Descripción del atributo dinámico 2.</description>
+            <validation>Las reglas de validación se determinarán del esquema XSD y la API de Swagger.</validation>
+            <win4_field>CAMPO2</win4_field>
+        </attribute>
+        </attributes>
+</entity>
+
+<template>
+    <file_name_pattern>target_{ENTIDAD}.xml</file_name_pattern>
+    <content>
+        <root>
+            <entidades>
+                <entidad>
+                    <nombre>{CAMPO1}</nombre>
+                    <codigo>{CAMPO2}</codigo>
+                    </entidad>
+            </entidades>
+        </root>
+    </content>
+</template>
