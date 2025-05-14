@@ -1,0 +1,1228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://jnum.com/entidad"
+  xmlns:en="http://jnum.com/entidad"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+  <xs:element name="entidad">
+    <xs:annotation>
+      <xs:documentation>Descripcion de una entidad para la que se va a
+        generar un programa de mantenimiento.</xs:documentation>
+    </xs:annotation>
+
+    <xs:complexType>
+      <xs:all>
+        <xs:element name="extends" minOccurs="0" maxOccurs="1">
+          <xs:annotation>
+            <xs:documentation>
+              Indica si la entidad es hija de alguna otra
+            </xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="entidad" type="xs:string">
+                <xs:annotation>
+                  <xs:documentation>
+                    Nombre de la entidad padre en la
+                    herencia
+                  </xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="estrategia" type="xs:string">
+                <xs:annotation>
+                  <xs:documentation>
+                    Tipo de estrategia de herencia a
+                    utilizar: 'discriminator' o
+                    'tablePerSubclass'
+                  </xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="nombreFKConstraint" type="xs:string" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>
+                    Nombre de la FK de la tabla hija
+                    a la tabla padre cuando se
+                    utiliza la estrategia de
+                    herencia tablePerSubclass
+                  </xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="valorDiscriminador" type="xs:string" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>
+                    Valor del discriminador a
+                    utilizar para esta entidad
+                    cuando la estrategia de herencia
+                    utilizada sea discriminator
+                  </xs:documentation>
+                </xs:annotation>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+
+        <xs:element name="extended" minOccurs="0" maxOccurs="1">
+          <xs:annotation>
+            <xs:documentation>
+              Indica que la entidad puede ser padre de
+              alguna otra
+            </xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="abstract" type="xs:boolean" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>
+                    Indica que la entidad no es
+                    instanciable
+                  </xs:documentation>
+                </xs:annotation>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+
+        <xs:element name="modoGeneracion" nillable="true">
+          <xs:annotation>
+            <xs:documentation>
+              Especifica el tipo
+              de relacion entre
+              las entidades
+            </xs:documentation>
+          </xs:annotation>
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="back">
+              </xs:enumeration>
+              <xs:enumeration value="front">
+              </xs:enumeration>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="tipoAtributo" type="xs:string" minOccurs="0" maxOccurs="1">
+        </xs:element>
+        <xs:element name="opciones" minOccurs="0">
+          <xs:complexType>
+            <xs:all>
+              <xs:element name="noPersistida" type="xs:boolean" minOccurs="0">
+              </xs:element>
+              <xs:element name="noAuditable" type="xs:boolean" minOccurs="0">
+              </xs:element>    
+              <xs:element name="entidadonetoone" type="xs:string" minOccurs="0">
+              </xs:element> 
+              <xs:element name="removeVersion" type="xs:boolean" minOccurs="1" maxOccurs="1">
+              </xs:element>                
+              <xs:element name="saveinmemory" type="xs:boolean" minOccurs="0">
+              </xs:element>                                                  
+            </xs:all>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="modulo" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>
+              Agrupa las entidades en distintos grupos
+              funcionales. Si no se especifica, se supone
+              que la entidad pertenece al grupo funcional
+              "Otras funcionalidades".
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="nombre" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>
+              Nombre de la entidad. El nombre del archivo
+              xml debera ser igual que el nombre de la
+              entidad. No obstante, el generador utilizara
+              el nombre de la entidad para generar los
+              archivos.
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="nombreTabla" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>
+              Nombre de la tabla en la base de datos
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="nombreID" type="xs:string" minOccurs="0" maxOccurs="1">
+        </xs:element>
+        <xs:element name="label" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>
+              Etiqueta de la entidad.
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="atributos">
+          <xs:annotation>
+            <xs:documentation>
+              Atributos de la entidad.
+            </xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:sequence maxOccurs="unbounded">
+              <xs:element name="atributo" type="en:atributo">
+                <xs:annotation>
+                  <xs:documentation>
+                    Definicion de un atributo.
+                  </xs:documentation>
+                </xs:annotation>
+
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="unicos" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>
+              Combinaciones de atributos cuyos valores
+              deben ser ynicos para la entidad. Claves
+              candidatas de la entidad.
+            </xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:sequence maxOccurs="unbounded">
+              <xs:element name="unico">
+                <xs:annotation>
+                  <xs:documentation>
+                    Combinacion de atributos cuyos
+                    valores deben ser unicos para la
+                    entidad. Clave candidata de la
+                    entidad.
+                  </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:sequence maxOccurs="unbounded">
+                    <xs:element name="nombre" type="xs:string" nillable="false">
+                      <xs:annotation>
+                        <xs:documentation>
+                          Nombre del atributo
+                          de la entidad.
+                        </xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="nombreRestriccion" type="xs:string" use="required">
+                  </xs:attribute>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="detalles" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>
+              Entidades que son detalle de la entidad
+              actual (maestro).
+            </xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:sequence maxOccurs="unbounded">
+              <xs:element name="detalle">
+                <xs:annotation>
+                  <xs:documentation>
+                    Definicion de una entidad de
+                    detalle.
+                  </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:all>
+                    <xs:element name="nombre" type="xs:string" nillable="false">
+                      <xs:annotation>
+                        <xs:documentation>
+                          Nombre de la entidad
+                          de detalle.
+                        </xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element name="nombreTablaRelacion" type="xs:string" minOccurs="0" maxOccurs="1">
+                    </xs:element>
+                    <xs:element name="nombreEntidadRelacion" type="xs:string" minOccurs="0" maxOccurs="1">
+                    </xs:element>
+                    <xs:element name="atributo" type="xs:string" nillable="false">
+                      <xs:annotation>
+                        <xs:documentation>
+                          Nombre del atributo
+                          de la entidad de
+                          detalle que se
+                          relaciona con la
+                          clave de la entidad
+                          maestro (clave
+                          foranea).
+                        </xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element name="atributoDetalle" type="xs:string" minOccurs="0">
+                    </xs:element>
+                    <xs:element name="atributoViewContainer" type="xs:string" minOccurs="0">
+                    </xs:element>                    
+                    <xs:element name="propietario" type="xs:boolean" minOccurs="0" maxOccurs="1">
+                    </xs:element>
+                    <xs:element name="tipoRelacion" nillable="false">
+                      <xs:annotation>
+                        <xs:documentation>
+                          Especifica el tipo
+                          de relacion entre
+                          las entidades
+                        </xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:enumeration value="many-to-many">
+                          </xs:enumeration>
+                          <xs:enumeration value="one-to-many">
+                          </xs:enumeration>
+                          <xs:enumeration value="one-to-one">
+                          </xs:enumeration>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="edicion" type="en:edicion">
+                      <xs:annotation>
+                        <xs:documentation>
+                          Especifica el tipo
+                          de interfaz de
+                          usuario que se
+                          aplicara para la
+                          edicion de las
+                          entidad detalle
+                        </xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element name="label" type="xs:string">
+                      <xs:annotation>
+                        <xs:documentation>
+                          Especifica que
+                          etiqueta se mostrara
+                          en los detalles.
+                        </xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element name="listado" minOccurs="0" maxOccurs="1">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="atributos">
+                            <xs:complexType>
+                              <xs:sequence minOccurs="1" maxOccurs="unbounded">
+                                <xs:element name="atributo">
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element name="nombre" type="xs:string">
+                                      </xs:element>
+                                    </xs:sequence>
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="operacionesAsignado" minOccurs="0" maxOccurs="1">
+                      <xs:complexType>
+                        <xs:sequence minOccurs="1" maxOccurs="unbounded">
+                          <xs:element name="operacion" type="en:operacion">
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="operacionesDisponibles" minOccurs="0" maxOccurs="1">
+                      <xs:complexType>
+                        <xs:sequence minOccurs="1" maxOccurs="unbounded">
+                          <xs:element name="operacion" type="en:operacion">
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="heredado" type="xs:boolean" minOccurs="0" maxOccurs="1">
+                    </xs:element>
+                    <!--xs:element name="orden" minOccurs="0">
+                      <xs:complexType>
+                        <xs:annotation>
+                          <xs:documentation>
+                            Indica el orden
+                            en el que
+                            aparecerán los
+                            elementos en el
+                            detalle. Será
+                            una lista con
+                            los atributos
+                            por los que se
+                            quiera ordenar.
+                            Un signo -
+                            delante de un
+                            atributo
+                            indicará que ese
+                            se ordenará de
+                            forma
+                            descencente
+                          </xs:documentation>
+                        </xs:annotation>
+                        <xs:sequence minOccurs="1" maxOccurs="unbounded">
+                          <xs:element name="atributo" type="xs:string">
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element-->
+                    <xs:element name="fetchType" type="xs:string" minOccurs="0" maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>
+                          Indica el tipo de
+                          carga que se quiere
+                          en las entidades de
+                          relación
+                          (LAZY,EAGER)
+                        </xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element name="nestedlist" type="xs:boolean" minOccurs="0" maxOccurs="1">
+                    </xs:element>
+                    <xs:element name="transient" type="xs:boolean" minOccurs="0" maxOccurs="1">
+                    </xs:element>
+                    <xs:element name="isintree" type="xs:boolean" minOccurs="0" maxOccurs="1">
+                    </xs:element>
+                    <xs:element name="descriptionnode" type="xs:string">
+                    </xs:element>
+                    <xs:element name="treeicon" type="xs:string" minOccurs="0" maxOccurs="1">
+                    </xs:element>
+                    <xs:element name="recursivo" type="xs:boolean" minOccurs="0" maxOccurs="1">
+                    </xs:element>
+                  </xs:all>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="informes" type="en:informesType" minOccurs="0" maxOccurs="1">
+          <xs:annotation>
+            <xs:documentation>
+              Definicion del comportamiento y aspecto de
+              los informes de la entidad
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="operaciones" minOccurs="0" maxOccurs="1">
+          <xs:complexType>
+            <xs:choice>
+              <xs:sequence minOccurs="1" maxOccurs="unbounded">
+                <xs:element name="agrupacion" type="en:agrupacion">
+                </xs:element>
+              </xs:sequence>
+              <xs:sequence minOccurs="1" maxOccurs="unbounded">
+                <xs:element name="operacion" type="en:operacion">
+                </xs:element>
+              </xs:sequence>
+            </xs:choice>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="orden" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence minOccurs="1" maxOccurs="unbounded">
+              <xs:element name="atributo" type="xs:string">
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="embeddedId" minOccurs="0">
+          <xs:complexType>
+            <xs:annotation>
+              <xs:documentation>
+                Indica si la entidad tiene clave
+                compuesta
+              </xs:documentation>
+            </xs:annotation>
+            <xs:sequence minOccurs="1" maxOccurs="unbounded">
+              <xs:element name="atributo" type="xs:string">
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="composeId" minOccurs="0">
+          <xs:complexType>
+            <xs:annotation>
+              <xs:documentation>
+                Indica si la entidad tiene clave
+                compuesta
+              </xs:documentation>
+            </xs:annotation>
+            <xs:sequence minOccurs="1" maxOccurs="unbounded">
+              <xs:element name="atributo" type="xs:string">
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>        
+        <xs:element name="entityFilter" minOccurs="0">
+          <xs:complexType>
+            <xs:annotation>
+              <xs:documentation>
+                Nos indica si la entidad es filtrada por
+                algún campo del usuario.
+              </xs:documentation>
+            </xs:annotation>
+            <xs:sequence minOccurs="1" maxOccurs="unbounded">
+              <xs:element name="userreference" type="en:userreference">
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="menuLabel" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>
+              Etiqueta de la entidad que se usara en el
+              menu
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="editLabel" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>
+              Etiqueta de la entidad que se usara en la
+              edicion
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="visual" minOccurs="0" maxOccurs="1">
+          <xs:complexType>
+            <xs:all>
+              <xs:element name="atributosOcultos" minOccurs="0" maxOccurs="1">
+                <xs:complexType>
+                  <xs:sequence minOccurs="1" maxOccurs="unbounded">
+                    <xs:element name="atributo" type="xs:string">
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="adicion">
+                <xs:complexType>
+                  <xs:all>
+                    <xs:element name="agregable" type="xs:boolean">
+                    </xs:element>
+                    <xs:element name="vista" type="en:vista" minOccurs="0" maxOccurs="1">
+                    </xs:element>
+                  </xs:all>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="edicion">
+                <xs:complexType>
+                  <xs:all>
+                    <xs:element name="editable" type="xs:boolean">
+                    </xs:element>
+                    <xs:element name="vista" type="en:vista" minOccurs="0" maxOccurs="1">
+                    </xs:element>
+                  </xs:all>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="listado" minOccurs="0" maxOccurs="1">
+                <xs:complexType>
+                  <xs:all>
+                    <xs:element name="refrescoAutomatico" type="xs:unsignedLong" minOccurs="0" maxOccurs="1">
+                    </xs:element>
+                    <xs:element name="deletable" type="xs:boolean" minOccurs="0">
+                    </xs:element>
+                    <xs:element name="ocultarAcciones" type="xs:boolean" minOccurs="0">
+                    </xs:element>
+                    <xs:element name="listable" type="xs:boolean" minOccurs="0">
+                    </xs:element>
+                    <xs:element name="vista" type="en:vista" minOccurs="0" maxOccurs="1">
+                    </xs:element>
+                    <xs:element name="entityview" type="en:entityview" minOccurs="0" maxOccurs="1">
+                    </xs:element>
+                  </xs:all>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="busqueda" minOccurs="0" maxOccurs="1">
+                <xs:complexType>
+                  <xs:all>
+                    <xs:element name="vista" type="en:vista" minOccurs="0" maxOccurs="1">
+                    </xs:element>
+                  </xs:all>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="propselect" minOccurs="0" maxOccurs="1">
+                <xs:complexType>
+                  <xs:all>
+                    <xs:element name="vista" type="en:vista" minOccurs="0" maxOccurs="1">
+                    </xs:element>
+                  </xs:all>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="tree">
+                <xs:complexType>
+                  <xs:all>
+                    <xs:element name="agregable" type="xs:boolean">
+                    </xs:element>
+                    <xs:element name="editable" type="xs:boolean">
+                    </xs:element>
+                    <xs:element name="deletable" type="xs:boolean">
+                    </xs:element>
+                    <xs:element name="descriptionnode" type="xs:boolean">
+                    </xs:element>
+                    <xs:element name="vista" type="en:vista" minOccurs="0" maxOccurs="1">
+                    </xs:element>
+                  </xs:all>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="stepper" type="xs:string" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>
+                    Indica si se usa stepper en
+                    lugar de tabs y el tipo. Los
+                    valores pueden ser horizontal o
+                    vertical
+                  </xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="slide" type="xs:boolean" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>
+                    Indica si se utiliza slide en
+                    lugar de checkboses
+                  </xs:documentation>
+                </xs:annotation>
+              </xs:element>
+            </xs:all>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="comboLabel" type="xs:string" minOccurs="0" maxOccurs="1">
+        </xs:element>
+        <xs:element name="legendEditField" minOccurs="0">
+          <xs:complexType>
+            <xs:annotation>
+              <xs:documentation>
+                Indica los campos que aparecerán en el
+                legend de edición
+              </xs:documentation>
+            </xs:annotation>
+            <xs:sequence minOccurs="1" maxOccurs="unbounded">
+              <xs:element name="atributo" type="xs:string">
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="hastreeview" type="xs:boolean" minOccurs="0" maxOccurs="1">
+        </xs:element>
+        <xs:element name="notautoexpandedtree" type="xs:boolean" minOccurs="0" maxOccurs="1">
+        </xs:element>
+        <xs:element name="draggabletree" type="xs:boolean" minOccurs="0" maxOccurs="1"></xs:element>
+        <xs:element name="generatetreecomponent" type="xs:boolean" minOccurs="0" maxOccurs="1">
+        </xs:element>
+        <xs:element name="treeicon" type="xs:string" minOccurs="0" maxOccurs="1">
+        </xs:element>
+        <xs:element name="hideorder" type="xs:boolean" minOccurs="0" maxOccurs="1">
+        </xs:element>
+        <xs:element name="totales" type="xs:string" minOccurs="0" maxOccurs="1">
+        </xs:element>
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="edicion">
+    <xs:all>
+      <xs:element name="tipo" type="xs:string" nillable="false">
+        <xs:annotation>
+          <xs:documentation>
+            Tipo de representacion grafica (text [caja de
+            texto], area [caja de texto grande], html [caja
+            de texto con formato], combo [lista
+            desplegable], search [pantalla flotante de
+            busqueda/alta], list [lista], checkbox). Por
+            defecto se utilizara "text", tipo 'number' para
+            numeros, tipo 'calendar' fecha simple, tipo
+            'datetime' fecha y hora , tipo 'time' para hora,
+            tipo 'image' una imagen.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="ocultarOpcionVacia" type="xs:boolean">
+        <xs:annotation>
+          <xs:documentation>
+            En el caso de un combo indica si este tiene
+            opción vacía
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="hint" type="xs:string" nillable="false">
+        <xs:annotation>
+          <xs:documentation>
+          hintText
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>  
+      <xs:element name="tooltip" minOccurs="0">
+          <xs:complexType>
+            <xs:all>
+              <xs:element name="busqueda" type="xs:boolean" minOccurs="0" maxOccurs="1">
+              </xs:element>
+              <xs:element name="addedit" type="xs:boolean" minOccurs="0" maxOccurs="1">
+              </xs:element>    
+              <xs:element name="listado" type="xs:boolean" minOccurs="0" maxOccurs="1">
+              </xs:element>   
+              <xs:element name="htmltext" type="xs:string" minOccurs="1" maxOccurs="1"></xs:element>                                                              
+            </xs:all>
+          </xs:complexType>
+        </xs:element>
+      <xs:element name="firstUpper" type="xs:boolean" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>
+          firstUpper
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>       
+      <xs:element name="disableByValue" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence minOccurs="1" maxOccurs="unbounded">
+            <xs:element name="disableValue" type="en:disableValue">
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="depends" minOccurs="0">
+        <xs:complexType>
+          <xs:all>
+            <xs:element name="nombreAtributo" type="xs:string" minOccurs="0" maxOccurs="1">
+            </xs:element>
+          </xs:all>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="multiple" type="xs:boolean">
+        <xs:annotation>
+          <xs:documentation>
+            En el caso de un combo indica si este tiene
+            selección múltiple
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="multiplesearch" type="xs:boolean">
+        <xs:annotation>
+          <xs:documentation>
+            En el caso de un propSelect indica si este tiene
+            selección múltiple
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="inputsearch" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="atributo" type="xs:string" minOccurs="0" maxOccurs="1">
+            </xs:element>
+            <xs:element name="atributoref" type="xs:string" minOccurs="0" maxOccurs="1">
+            </xs:element>
+            <xs:element name="style" type="xs:string" maxOccurs="1" minOccurs="0">
+            </xs:element>
+            <xs:element name="coderror" type="xs:string" minOccurs="0" maxOccurs="1">
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="propselectinput" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="atributo" type="xs:string" minOccurs="0" maxOccurs="1">
+            </xs:element>
+            <xs:element name="atributoref" type="xs:string" minOccurs="0" maxOccurs="1">
+            </xs:element>                
+            <xs:element name="style" type="xs:string" maxOccurs="1" minOccurs="0">
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>       
+      <xs:element name="opciones" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            En el caso de combo o list manual, aqui se
+            especifican las opciones que se van a mostrar.
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:sequence minOccurs="1" maxOccurs="unbounded">
+              <xs:element name="opcion">
+                <xs:annotation>
+                  <xs:documentation>
+                    Opcion a mostrar al usuario.
+                  </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:all>
+                    <xs:element name="valor" type="xs:string">
+                      <xs:annotation>
+                        <xs:documentation>
+                          Valor de la opcion.
+                        </xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element name="texto" type="xs:string">
+                      <xs:annotation>
+                        <xs:documentation>
+                          Texto de la opcion.
+                        </xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                  </xs:all>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="validaciones" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence maxOccurs="unbounded">
+            <xs:element name="validacion">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="nombre" type="xs:string">
+                    <xs:annotation>
+                      <xs:documentation>
+                        Indica el validador
+                        concreto. Ejemplo:
+                        lengthValidator, ...
+                      </xs:documentation>
+                    </xs:annotation>
+                  </xs:element>
+                  <xs:element name="valor" type="xs:string">
+                    <xs:annotation>
+                      <xs:documentation>
+                        Indica el valor de una
+                        validacion simple
+                      </xs:documentation>
+                    </xs:annotation>
+                  </xs:element>
+                  <xs:element name="valorcompare" type="xs:string">
+                    <xs:annotation>
+                      <xs:documentation>
+                        Indica el valor de una
+                        validacion simple
+                      </xs:documentation>
+                    </xs:annotation>
+                  </xs:element>
+                  <xs:element name="parametros" minOccurs="0">
+                    <xs:complexType>
+                      <xs:sequence minOccurs="1" maxOccurs="unbounded">
+                        <xs:element name="parametro">
+                          <xs:complexType>
+                            <xs:sequence>
+                              <xs:element name="nombre" type="xs:string">
+                              </xs:element>
+                              <xs:element name="valor" type="xs:string">
+                              </xs:element>
+                            </xs:sequence>
+                          </xs:complexType>
+                        </xs:element>
+                      </xs:sequence>
+                    </xs:complexType>
+                  </xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="validacionessearch" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence maxOccurs="unbounded">
+            <xs:element name="validacion">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="nombre" type="xs:string">
+                    <xs:annotation>
+                      <xs:documentation>
+                        Indica el validador
+                        concreto. Ejemplo:
+                        lengthValidator, ...
+                      </xs:documentation>
+                    </xs:annotation>
+                  </xs:element>
+                  <xs:element name="valor" type="xs:string">
+                    <xs:annotation>
+                      <xs:documentation>
+                        Indica el valor de una
+                        validacion simple
+                      </xs:documentation>
+                    </xs:annotation>
+                  </xs:element>
+                  <xs:element name="valorcompare" type="xs:string">
+                    <xs:annotation>
+                      <xs:documentation>
+                        Indica el valor de una
+                        validacion simple
+                      </xs:documentation>
+                    </xs:annotation>
+                  </xs:element>
+                  <xs:element name="parametros" minOccurs="0">
+                    <xs:complexType>
+                      <xs:sequence minOccurs="1" maxOccurs="unbounded">
+                        <xs:element name="parametro">
+                          <xs:complexType>
+                            <xs:sequence>
+                              <xs:element name="nombre" type="xs:string">
+                              </xs:element>
+                              <xs:element name="valor" type="xs:string">
+                              </xs:element>
+                            </xs:sequence>
+                          </xs:complexType>
+                        </xs:element>
+                      </xs:sequence>
+                    </xs:complexType>
+                  </xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="valorDefecto" type="xs:string" minOccurs="0" maxOccurs="1">
+      </xs:element>
+      <xs:element name="longitud" type="xs:unsignedLong" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Longitud del campo en la vista. Especifica el
+            ancho del componente.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="appnumeric" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>Directiva para formatear los campos con decimales
+            e inicializacion</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:all>
+            <xs:annotation>
+              <xs:documentation>Numero de decimales del campo
+              </xs:documentation>
+            </xs:annotation>
+            <xs:element name="decimales" minOccurs="0" maxOccurs="1" type="xs:string"></xs:element>
+          </xs:all>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="uppercase" type="xs:boolean" minOccurs="0" maxOccurs="1">
+      </xs:element>
+      <xs:element name="icono" type="xs:string" minOccurs="0" maxOccurs="1"></xs:element>
+      <xs:element name="admitedtypes" type="xs:string" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>
+            Tipos admitidos en los inputs de subida de
+            ficheros
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="mask" type="xs:string" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>
+            Mascara de edicion
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="scss" type="xs:boolean" minOccurs="0" maxOccurs="1"></xs:element>
+    </xs:all>
+  </xs:complexType>
+
+  <xs:complexType name="atributo">
+    <xs:all>
+      <xs:element name="nombre" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>
+            Nombre del atributo de la entidad.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="referencias" minOccurs="0" maxOccurs="1">
+        <xs:complexType>
+          <xs:sequence minOccurs="1" maxOccurs="unbounded">
+            <xs:element name="referencia" type="en:referencia">
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="nombreColumna" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Nombre de la columna de la base de datos
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="longitud" type="xs:unsignedLong" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Longitud del campo en la base de datos
+            Especifica el ancho del componente.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="obligatorio" type="xs:boolean" minOccurs="0" default="false">
+        <xs:annotation>
+          <xs:documentation>
+            Especifica si el atributo es requerido. Por
+            defecto, el atributo no es requerido.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="label" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>
+            Etiqueta del atributo.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="events" minOccurs="0">
+        <xs:complexType>
+          <xs:annotation>
+            <xs:documentation>
+              Método que lanzará cada uno de los eventos
+              de la página
+            </xs:documentation>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element name="change" type="xs:string" minOccurs="0" maxOccurs="1">
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="clase" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>
+            Clase java del atributo.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="esRelacion" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="agregable" type="xs:boolean" maxOccurs="1" minOccurs="0">
+            </xs:element>
+            <xs:element name="editable" type="xs:boolean" maxOccurs="1" minOccurs="0">
+            </xs:element>
+            <xs:element name="deletable" type="xs:boolean" maxOccurs="1" minOccurs="0">
+            </xs:element>              
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="unico" type="xs:boolean" minOccurs="0" default="false">
+        <xs:annotation>
+          <xs:documentation>
+            Especifica si el atributo es unico.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="edicion" minOccurs="0" type="en:edicion">
+        <xs:annotation>
+          <xs:documentation>
+            Representacion grafica. Por defecto, se
+            utilizara "text".
+          </xs:documentation>
+        </xs:annotation>
+
+      </xs:element>
+      <xs:element name="secciones" minOccurs="0">
+        <xs:complexType>
+          <xs:all>
+            <xs:element name="insercion" type="xs:boolean" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation>
+                  Especifica si el atributo aparece en
+                  la pantalla de insercion. Por
+                  defecto, el atributo si aparece en
+                  la pantalla de insercion.
+                </xs:documentation>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="busqueda" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation>
+                  Especifica si el atributo es un
+                  criterio de busqueda. Por defecto,
+                  el atributo no es un criterio de
+                  busqueda.
+                </xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="operador" minOccurs="1" maxOccurs="unbounded" type="en:operacionFiltro">
+                  </xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="modificacion" type="xs:boolean" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation>
+                  Especifica si el atributo es
+                  modificable. Por defecto, el
+                  atributo si es modificable.
+                </xs:documentation>
+              </xs:annotation>
+            </xs:element>
+          </xs:all>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="nombreFKConstraint" type="xs:string" minOccurs="0" maxOccurs="1">
+      </xs:element>
+      <xs:element name="heredado" type="xs:boolean" minOccurs="0" maxOccurs="1">
+      </xs:element>
+      <xs:element name="sqltype" type="xs:string" minOccurs="0" maxOccurs="1">
+      </xs:element>
+      <xs:element name="transient" type="xs:boolean" minOccurs="0" maxOccurs="1">
+      </xs:element>
+      <xs:element name="ordenacionTabla" type="xs:string" minOccurs="0" maxOccurs="1">
+      </xs:element>
+      <xs:element name="fetchType" type="xs:string" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>
+            Indica el tipo de carga que se quiere en las
+            entidades de relación (LAZY,EAGER)
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="attref" type="xs:string" minOccurs="0" maxOccurs="1">
+      </xs:element>
+      <xs:element name="nombreColumnaRelacion" type="xs:string" minOccurs="0" maxOccurs="1">
+      </xs:element>
+      <xs:element name="total" type="xs:string" minOccurs="0" maxOccurs="1">
+      </xs:element>
+      <xs:element name="joinformula" type="xs:string" minOccurs="0" maxOccurs="1"></xs:element>
+    </xs:all>
+
+  </xs:complexType>
+
+  <xs:complexType name="referencia">
+    <xs:sequence>
+      <xs:element name="nombreAtributo" type="xs:string" minOccurs="0" maxOccurs="1">
+      </xs:element>
+      <xs:element name="nombreCampo" type="xs:string" minOccurs="0" maxOccurs="1">
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="userreference">
+    <xs:sequence>
+      <xs:element name="atributo" type="xs:string" minOccurs="0" maxOccurs="1">
+      </xs:element>
+      <xs:element name="atributouser" type="xs:string" minOccurs="0" maxOccurs="1">
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="disableValue">
+    <xs:sequence>
+      <xs:element name="valor" type="xs:string" minOccurs="0" maxOccurs="1">
+      </xs:element>
+      <xs:element name="atributo" type="xs:string" minOccurs="0" maxOccurs="1">
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="tipoOperacion">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="entidad"></xs:enumeration>
+      <xs:enumeration value="instancia"></xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="agrupacion">
+    <xs:all>
+      <xs:element name="nombre" type="xs:string"></xs:element>
+      <xs:element name="label" type="xs:string"></xs:element>
+      <xs:element name="tipoAgrupacion" type="xs:string"></xs:element>
+      <xs:element name="operaciones">
+        <xs:complexType>
+          <xs:sequence minOccurs="1" maxOccurs="unbounded">
+            <xs:element name="operacion" type="en:operacion">
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:all>
+  </xs:complexType>
+
+  <xs:complexType name="operacion">
+    <xs:sequence>
+      <xs:element name="nombre" type="xs:string"></xs:element>
+      <xs:element name="tipo" default="instancia" nillable="false" type="en:tipoOperacion">
+      </xs:element>
+      <xs:choice>
+        <xs:element name="simple" type="xs:boolean"></xs:element>
+        <xs:element name="entidad" type="xs:string"></xs:element>
+      </xs:choice>
+      <xs:element name="icono" type="xs:string"></xs:element>
+      <xs:element name="label" type="xs:string"></xs:element>
+      <xs:element name="labelDisabled" type="xs:string"></xs:element>
+      <xs:element name="multiple" type="xs:boolean"></xs:element>
+      <xs:element name="listado" type="xs:boolean"></xs:element>
+      <xs:element name="mensaje" type="xs:string" minOccurs="0" maxOccurs="1">
+      </xs:element>
+      <xs:element name="entidadresult" type="xs:string" minOccurs="0" maxOccurs="1"></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="operacionFiltro">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="path" type="xs:string" />
+        <xs:attribute name="label" type="xs:string" />
+        <xs:attribute name="nombre" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="vista">
+    <xs:choice>
+      <xs:element name="definicion" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>Este elemento no está en uso</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:choice>
+    <xs:anyAttribute></xs:anyAttribute>
+  </xs:complexType>
+
+  <xs:complexType name="entityview">
+    <xs:choice>
+      <xs:element name="definicion" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>Este elemento no está en uso</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:choice>
+    <xs:anyAttribute></xs:anyAttribute>
+  </xs:complexType>
+
+
+  <xs:complexType name="informeType">
+    <xs:all>
+      <xs:element name="custom" type="xs:boolean" minOccurs="0" maxOccurs="1" default="true">
+        <xs:annotation>
+          <xs:documentation>Indica si el informe es customizado o no
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="visible" type="xs:boolean" minOccurs="0" maxOccurs="1" default="true">
+        <xs:annotation>
+          <xs:documentation>Indica si el boton que genera el informe
+            aparecera o no en la vista</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:all>
+  </xs:complexType>
+
+  <xs:complexType name="informesType">
+    <xs:all>
+      <xs:element name="pdf">
+        <xs:complexType>
+          <xs:all>
+            <xs:element name="nombreFicheroInforme" type="xs:string" minOccurs="0" maxOccurs="1">
+            </xs:element>
+            <xs:element name="vista" type="en:vista" minOccurs="0" maxOccurs="1">
+            </xs:element>
+          </xs:all>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="xlsx">
+        <xs:complexType>
+          <xs:all>
+            <xs:element name="nombreFicheroInforme" type="xs:string" minOccurs="0" maxOccurs="1">
+            </xs:element>
+            <xs:element name="vista" type="en:vista" minOccurs="0" maxOccurs="1">
+            </xs:element>
+          </xs:all>
+        </xs:complexType>
+      </xs:element>
+    </xs:all>
+  </xs:complexType>
+
+</xs:schema>
